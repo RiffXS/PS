@@ -1,17 +1,23 @@
 package br.ifes.calculadora.view;
 
 import br.ifes.calculadora.controller.Controller;
+import br.ifes.calculadora.model.operacoes.IOperacao;
+import org.reflections.Reflections;
 
 import java.util.Scanner;
+import java.util.Set;
 
 public class Menu {
 
     public void imprimirOpcoes() {
+        Reflections reflections = new Reflections("br.ifes.calculadora.model.operacoes");
+
+        Set<Class<? extends IOperacao>> opClasses = reflections.getSubTypesOf(IOperacao.class);
+
         System.out.print("Menu:\n");
-        System.out.print("  Somar\n");
-        System.out.print("  Subtrair\n");
-        System.out.print("  Multiplicar\n");
-        System.out.print("  Dividir\n\n");
+        for (Class<?> opClass : opClasses) {
+            System.out.print("  " + opClass.getSimpleName() + "\n");
+        }
 
         Scanner s = new Scanner(System.in);
 
